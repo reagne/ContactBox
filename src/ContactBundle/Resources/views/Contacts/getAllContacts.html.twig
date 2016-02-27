@@ -1,0 +1,7 @@
+<button type="button" onclick="location.href='{{ path('addPerson') }}'">Dodaj osobę</button>
+{% for person in persons %}
+    <h1><a href="{{ path('showPerson', {'id':person.id}) }}">{{ person.lastname }} {{ person.firstname }}</a>
+    <button type="remove" onclick="location.href='{{ path('removePerson', {'id':person.id}) }}'">Usuń osobę</button> <button onclick="location.href='{{ path('editPerson', {'id':person.id}) }}'">Edytuj dane</button></h1>
+    {% else %}
+        <p>Nie masz żadnych kontaktów</p>
+{% endfor %}

@@ -1,0 +1,5 @@
+<h1>Edytowanie telefonu</h1>
+{{ form_start(phone) }}
+{{ form_widget(phone) }}
+{{ form_end(phone) }}
+<button onclick="location.href='{{ path('showPerson', {'id':person_id}) }}'">Wróć</button>

@@ -1,0 +1,5 @@
+<h1>Edytowanie e-maila</h1>
+{{ form_start(mail) }}
+{{ form_widget(mail) }}
+{{ form_end(mail) }}
+<button onclick="location.href='{{ path('showPerson', {'id':person_id}) }}'">Wróć</button>

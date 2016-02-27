@@ -1,0 +1,32 @@
+<h1>{{ person.lastname }} {{ person.firstname }}</h1>
+<p>{{ person.description }}
+<button onclick="location.href='{{ path('editPerson', {'id':person.id}) }}'">Edytuj</button></p>
+<p>Adresy:</p><ul>
+    {% for address in person.addresses %}
+        <li>{{ address.city }}<br>
+        ul. {{ address.street }} {{ address.houseNo }}/{{ address.flatNo }} <button onclick="location.href='{{ path('editAddress', {'id':address.id}) }}'">Edytuj</button><button onclick="location.href='{{ path('removeAddress', {'id':address.id}) }}'">Usuń</button></li>
+        {% else %}
+        <p>Brak adresu <button type="button" onclick="location.href='{{ path('addAddress', {'id':person.id}) }}'">Dodaj adres</button></p>
+    {% endfor %}
+</ul>
+<p>E-maile:</p><ul>
+    {% for mail in person.mails %}
+        <li>{{ mail.mail }} | {{ mail.type }} <button onclick="location.href='{{ path('editMail', {'id':mail.id}) }}'">Edytuj</button><button onclick="location.href='{{ path('removeMail', {'id':mail.id}) }}'">Usuń</button></li>
+    {% else %}
+        <p>Brak e-maili <button type="button" onclick="location.href='{{ path('addMail', {'id':person.id}) }}'">Dodaj e-mail</button></p>
+    {% endfor %}
+</ul>
+<p>Telefony:</p><ul>
+    {% for phone in person.phones %}
+        <li>{{ phone.number }} | {{ phone.type }} <button onclick="location.href='{{ path('editPhone', {'id':phone.id}) }}'">Edytuj</button><button onclick="location.href='{{ path('removePhone', {'id':phone.id}) }}'">Usuń</button></li>
+    {% else %}
+        <p>Brak telefonów <button type="button" onclick="location.href='{{ path('addPhone', {'id':person.id}) }}'">Dodaj telefon</button></p>
+    {% endfor %}
+</ul>
+<p>Grupy:</p>
+    {% for group in person.groups %}
+    <li>{{ group.name }}</li>
+{% else %}
+    <p>Nie jest dodany/a do żadnej grupy</p>
+{% endfor %}
+<button type="button" onclick="location.href='{{ path('addAddress', {'id':person.id}) }}'">Dodaj dane w 3 krokach</button>

@@ -1,0 +1,7 @@
+<h1>Krok 3: Dodaj telefon</h1>
+{{ form_start(phone) }}
+{{ form_widget(phone) }}
+{{ form_end(phone) }}
+<a href="{{ path('showPerson', {'id': id}) }}">Pomiń krok</a><br>
+<a href="{{ path('addMail', {'id': id}) }}">Cofnij i przejdź do Kroku 2: Dodaj e-mail</a><br>
+<a href="{{ path('addAddress', {'id': id}) }}">Cofnij i przejdź do Kroku 1: Dodaj adres</a><br>
