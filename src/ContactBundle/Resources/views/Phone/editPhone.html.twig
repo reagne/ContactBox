@@ -1,0 +1,9 @@
+{% extends "ContactBundle::mainTemplate.html.twig" %}
+{% block headTitle %}Edytowanie nr telefonu{% endblock %}
+{% block bodyForm %}
+<h1>Edytowanie telefonu</h1>
+{{ form_start(phone) }}
+{{ form_widget(phone) }}
+{{ form_end(phone) }}
+<button onclick="location.href='{{ path('showPerson', {'id':person_id}) }}'">Wróć</button>
+{% endblock %}

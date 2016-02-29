@@ -1,0 +1,11 @@
+{% extends "ContactBundle::mainTemplate.html.twig" %}
+{% block headTitle %}Dodawanie e-maila{% endblock %}
+{% block bodyForm %}
+<h1>Krok 2: Dodaj e-mail</h1>
+{{ form_start(mail) }}
+{{ form_widget(mail) }}
+{# {{ form_errors(mail.mail) }} #}
+{{ form_end(mail) }}
+<a href="{{ path('addPhone', {'id': id}) }}">Pomiń i przejdź do Kroku 3: Dodaj telefon</a><br>
+<a href="{{ path('addAddress', {'id': id}) }}">Cofnij i przejdź do Kroku 1: Dodaj adres</a><br>
+{% endblock %}

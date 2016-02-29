@@ -1,4 +1,8 @@
+{% extends "ContactBundle::mainTemplate.html.twig" %}
+{% block headTitle %}Edytowanie kontaktu{% endblock %}
+{% block bodyForm %}
 <h1>Edytowanie osoby</h1>
 {{ form_start(person) }}
 {{ form_widget(person) }}
 {{ form_end(person) }}
+{% endblock %}

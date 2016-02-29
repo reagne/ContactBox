@@ -1,3 +1,6 @@
+{% extends "ContactBundle::mainTemplate.html.twig" %}
+{% block headTitle %}Kontakt - dane{% endblock %}
+{% block bodyForm %}
 <h1>{{ person.lastname }} {{ person.firstname }}</h1>
 <p>{{ person.description }}
 <button onclick="location.href='{{ path('editPerson', {'id':person.id}) }}'">Edytuj</button></p>
@@ -30,3 +33,4 @@
     <p>Nie jest dodany/a do żadnej grupy</p>
 {% endfor %}
 <button type="button" onclick="location.href='{{ path('addAddress', {'id':person.id}) }}'">Dodaj dane w 3 krokach</button>
+{% endblock %}

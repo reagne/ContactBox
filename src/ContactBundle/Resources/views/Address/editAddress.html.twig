@@ -1,0 +1,9 @@
+{% extends "ContactBundle::mainTemplate.html.twig" %}
+{% block headTitle %}Edytowanie adresu{% endblock %}
+{% block bodyForm %}
+{<h1>Edytowanie adresu</h1>
+{{ form_start(address) }}
+{{ form_widget(address) }}
+{{ form_end(address) }}
+<button onclick="location.href='{{ path('showPerson', {'id':person_id}) }}'">Wróć</button>
+{% endblock %}

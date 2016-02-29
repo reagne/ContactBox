@@ -31,6 +31,7 @@ class Groups
     /**
      * @ORM\ManyToMany(targetEntity = "Person", inversedBy = "groups")
      * @ORM\JoinTable(name = "group_person")
+     *
      */
     private $persons;
 
@@ -65,5 +66,45 @@ class Groups
     public function getName()
     {
         return $this->name;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->persons = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add persons
+     *
+     * @param \ContactBundle\Entity\Person $persons
+     * @return Groups
+     */
+    public function addPerson(\ContactBundle\Entity\Person $persons)
+    {
+        $this->persons[] = $persons;
+
+        return $this;
+    }
+
+    /**
+     * Remove persons
+     *
+     * @param \ContactBundle\Entity\Person $persons
+     */
+    public function removePerson(\ContactBundle\Entity\Person $persons)
+    {
+        $this->persons->removeElement($persons);
+    }
+
+    /**
+     * Get persons
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPersons()
+    {
+        return $this->persons;
     }
 }

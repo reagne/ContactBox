@@ -45,15 +45,14 @@ class Address
     /**
      * @var integer
      *
-     * @ORM\Column(name="flat_no", type="integer")
+     * @ORM\Column(name="flat_no", type="integer", nullable=true)
      */
-    private $flatNo;
+    private $flatNo = null;
 
     /**
      * @ORM\ManyToOne(targetEntity = "Person", inversedBy = "addresses")
-     * @ORM\JoinColumn(name = "person_id", referencedColumnName = "id")
+     * @ORM\JoinColumn(name = "person_id", referencedColumnName = "id", onDelete="CASCADE")
      */
-
     private $person;
 
 
@@ -158,5 +157,28 @@ class Address
     public function getFlatNo()
     {
         return $this->flatNo;
+    }
+
+    /**
+     * Set person
+     *
+     * @param \ContactBundle\Entity\Person $person
+     * @return Address
+     */
+    public function setPerson(\ContactBundle\Entity\Person $person = null)
+    {
+        $this->person = $person;
+
+        return $this;
+    }
+
+    /**
+     * Get person
+     *
+     * @return \ContactBundle\Entity\Person 
+     */
+    public function getPerson()
+    {
+        return $this->person;
     }
 }

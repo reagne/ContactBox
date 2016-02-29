@@ -60,7 +60,10 @@ class Person
     private $mails;
 
     /**
-     * @ORM\ManyToMany(targetEntity = "Groups", mappedBy = "persons")
+     * Tutaj ma znaczenie, gdzie tworzymy tabelę i gdzie jest mapped, a gdzie inverse. Na odwrót nie zapisywałoby nam się do bazy danych
+     *
+     * @ORM\ManyToMany(targetEntity = "Groups", inversedBy = "persons")
+     * @ORM\JoinTable(name = "group_person")
      */
     private $groups;
 

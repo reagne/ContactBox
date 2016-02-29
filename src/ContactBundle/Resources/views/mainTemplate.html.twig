@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> {% block headTitle %}Twoja skrzynka kontaktowa{% endblock %}</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="Skrzynka kontaktowa">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+    <div class="container">
+        <nav class="masthead">
+            <ul class="nav nav-justified">
+                <li><a href="{{ path('all') }}">Strona główna</a></li>
+                <li><a href="{{ path('addPerson') }}">Dodaj kontakt</a></li>
+                <li><a href="{{ path('newGroup') }}">Dodaj nową grupę</a></li>
+            </ul>
+        </nav>
+        <div class="jumbotron">
+            {% block bodyForm %} {% endblock %}
+        </div>
+    </div>
+    </body>
+</html>

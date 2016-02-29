@@ -143,4 +143,146 @@ class Person
     {
         return $this->description;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->addresses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->phones = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->mails = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add addresses
+     *
+     * @param \ContactBundle\Entity\Address $addresses
+     * @return Person
+     */
+    public function addAddress(\ContactBundle\Entity\Address $addresses)
+    {
+        $this->addresses[] = $addresses;
+
+        return $this;
+    }
+
+    /**
+     * Remove addresses
+     *
+     * @param \ContactBundle\Entity\Address $addresses
+     */
+    public function removeAddress(\ContactBundle\Entity\Address $addresses)
+    {
+        $this->addresses->removeElement($addresses);
+    }
+
+    /**
+     * Get addresses
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAddresses()
+    {
+        return $this->addresses;
+    }
+
+    /**
+     * Add phones
+     *
+     * @param \ContactBundle\Entity\Phone $phones
+     * @return Person
+     */
+    public function addPhone(\ContactBundle\Entity\Phone $phones)
+    {
+        $this->phones[] = $phones;
+
+        return $this;
+    }
+
+    /**
+     * Remove phones
+     *
+     * @param \ContactBundle\Entity\Phone $phones
+     */
+    public function removePhone(\ContactBundle\Entity\Phone $phones)
+    {
+        $this->phones->removeElement($phones);
+    }
+
+    /**
+     * Get phones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPhones()
+    {
+        return $this->phones;
+    }
+
+    /**
+     * Add mails
+     *
+     * @param \ContactBundle\Entity\Email $mails
+     * @return Person
+     */
+    public function addMail(\ContactBundle\Entity\Email $mails)
+    {
+        $this->mails[] = $mails;
+
+        return $this;
+    }
+
+    /**
+     * Remove mails
+     *
+     * @param \ContactBundle\Entity\Email $mails
+     */
+    public function removeMail(\ContactBundle\Entity\Email $mails)
+    {
+        $this->mails->removeElement($mails);
+    }
+
+    /**
+     * Get mails
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMails()
+    {
+        return $this->mails;
+    }
+
+    /**
+     * Add groups
+     *
+     * @param \ContactBundle\Entity\Groups $groups
+     * @return Person
+     */
+    public function addGroup(\ContactBundle\Entity\Groups $groups)
+    {
+        $this->groups[] = $groups;
+
+        return $this;
+    }
+
+    /**
+     * Remove groups
+     *
+     * @param \ContactBundle\Entity\Groups $groups
+     */
+    public function removeGroup(\ContactBundle\Entity\Groups $groups)
+    {
+        $this->groups->removeElement($groups);
+    }
+
+    /**
+     * Get groups
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroups()
+    {
+        return $this->groups;
+    }
 }

@@ -37,9 +37,8 @@ class Phone
 
     /**
      * @ORM\ManyToOne(targetEntity = "Person", inversedBy = "phones")
-     * @ORM\JoinColumn(name = "person_id", referencedColumnName = "id")
+     * @ORM\JoinColumn(name = "person_id", referencedColumnName = "id", onDelete="CASCADE")
      */
-
     private $person;
 
 
@@ -97,5 +96,28 @@ class Phone
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set person
+     *
+     * @param \ContactBundle\Entity\Person $person
+     * @return Phone
+     */
+    public function setPerson(\ContactBundle\Entity\Person $person = null)
+    {
+        $this->person = $person;
+
+        return $this;
+    }
+
+    /**
+     * Get person
+     *
+     * @return \ContactBundle\Entity\Person 
+     */
+    public function getPerson()
+    {
+        return $this->person;
     }
 }

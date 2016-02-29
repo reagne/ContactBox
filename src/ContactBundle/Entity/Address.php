@@ -45,15 +45,14 @@ class Address
     /**
      * @var integer
      *
-     * @ORM\Column(name="flat_no", type="integer")
+     * @ORM\Column(name="flat_no", type="integer", nullable=true)
      */
-    private $flatNo;
+    private $flatNo = null;
 
     /**
      * @ORM\ManyToOne(targetEntity = "Person", inversedBy = "addresses")
-     * @ORM\JoinColumn(name = "person_id", referencedColumnName = "id")
+     * @ORM\JoinColumn(name = "person_id", referencedColumnName = "id", onDelete="CASCADE")
      */
-
     private $person;
 
 

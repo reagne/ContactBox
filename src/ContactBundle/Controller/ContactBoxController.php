@@ -21,7 +21,7 @@ class ContactBoxController extends Controller
         $form->add('firstname', 'text', ['label' => 'Podaj imię: ']);
         $form->add('lastname', 'text', ['label' => 'Podaj nazwisko: ']);
         $form->add('description', 'textarea', ['label' => 'Podaj opis: ']);
-        $form->add('groups', 'entity', ['class' => 'ContactBundle\Entity\Groups', 'choice_label' => 'name', 'expanded' => 'true', 'multiple' =>'true']);
+        $form->add('groups', 'entity', ['label' => 'Grupy: ', 'class' => 'ContactBundle\Entity\Groups', 'choice_label' => 'name', 'expanded' => 'true', 'multiple' =>'true']);
         $form->add('save', 'submit', ['label' => 'Zapisz']);
         $form->setAction($action);
         $personForm = $form->getForm();
@@ -33,7 +33,7 @@ class ContactBoxController extends Controller
         $form->add('city', 'text', ['label' => 'Podaj miasto: ']);
         $form->add('street', 'text', ['label' => 'Podaj ulicę: ']);
         $form->add('house_no', 'integer', ['label' => 'Podaj nr domu: ']);
-        $form->add('flat_no', 'integer', ['label' => 'Podaj nr mieszkania: ']);
+        $form->add('flat_no', 'integer', ['label' => 'Podaj nr mieszkania: ', 'required' => false]);
         $form->add('save', 'submit', ['label' => 'Zapisz']);
         $form->setAction($action);
         $addressForm = $form->getForm();
@@ -42,7 +42,7 @@ class ContactBoxController extends Controller
     }
     private function emailForm($mail, $action){
         $form = $this->createFormBuilder($mail);
-        $form->add('mail', 'email', ['label' => 'Podaj e-mail: ']);
+        $form->add('mail', 'text', ['label' => 'Podaj e-mail: ', 'required' => false]);
         $form->add('type', 'text', ['label' => 'Podaj typ: ']);
         $form->add('save', 'submit', ['label' => 'Zapisz']);
         $form->setAction($action);
@@ -108,7 +108,6 @@ class ContactBoxController extends Controller
         $person = new Person();
         $personForm = $this->personForm($person, $this->generateUrl('createPerson'));
 
-
         return['person' => $personForm->createView()];
     }
     /**
@@ -129,12 +128,13 @@ class ContactBoxController extends Controller
         $newId = $person->getId();
 
         return $this->redirectToRoute('showPerson', ['id' => $newId]);
+        //return new Response("zapisano");
     }
 
 // ADRES
     /**
      * @Route("/newAddress/{id}", name="addAddress")
-     * @Template("ContactBundle:Contacts:newAddress.html.twig")
+     * @Template("ContactBundle:Address:newAddress.html.twig")
      */
     public function newAddressAction($id){
         $address = new Address();
@@ -169,7 +169,7 @@ class ContactBoxController extends Controller
 // MAIL
     /**
      * @Route("/newMail/{id}", name="addMail")
-     * @Template("ContactBundle:Contacts:newMail.html.twig")
+     * @Template("ContactBundle:Email:newMail.html.twig")
      */
     public function newMailAction($id){
         $mail = new Email();
@@ -190,21 +190,33 @@ class ContactBoxController extends Controller
         $mailForm = $this->emailForm($mail, $this->generateUrl('createMail', ['id' => $id]));
         $mailForm->handleRequest($req);
 
-        if ($mailForm->isSubmitted()) {
+//        $validator = $this->get('validator');
+//        $errors = $validator->validate($mail);
+//
+//        if (count($errors) > 0){
+//            return $this->render('ContactBundle:Contacts:addError.html.twig', ['errors' => $errors]);
+//        }
+// Zamiast tego co jest wyżej można dać jedynie dodatkowy warunek
+
+        if ($mailForm->isSubmitted() && $mailForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $mail->setPerson($person);
             $person->addMail($mail);
             $em->persist($mail);
             $em->flush();
+
+            return $this->redirectToRoute('addPhone', ['id' => $id]);
+        } else {
+            return $this->render('ContactBundle:Contacts:newMail.html.twig', ['mail' => $mailForm->createView(), 'id' => $id]);
         }
 
-        return $this->redirectToRoute('addPhone', ['id' => $id]);
+
     }
 
 // TELEFON
     /**
      * @Route("/newPhone/{id}", name="addPhone")
-     * @Template("ContactBundle:Contacts:newPhone.html.twig")
+     * @Template("ContactBundle:Phone:newPhone.html.twig")
      */
     public function newPhoneAction($id){
         $phone = new Phone();
@@ -273,7 +285,7 @@ class ContactBoxController extends Controller
 // ADRESU
     /**
      * @Route("/editAddress/{id}", name="editAddress")
-     * @Template("ContactBundle:Contacts:editAddress.html.twig")
+     * @Template("ContactBundle:Address:editAddress.html.twig")
      */
     public function editAddressAction($id){
         $repo = $this->getDoctrine()->getRepository('ContactBundle:Address');
@@ -307,7 +319,7 @@ class ContactBoxController extends Controller
 // EMAIL
     /**
      * @Route("/editMail/{id}", name="editMail")
-     * @Template("ContactBundle:Contacts:editMail.html.twig")
+     * @Template("ContactBundle:Email:editMail.html.twig")
      */
     public function editMailAction($id){
         $repo = $this->getDoctrine()->getRepository('ContactBundle:Email');
@@ -341,7 +353,7 @@ class ContactBoxController extends Controller
 // TELEFONU
     /**
      * @Route("/editPhone/{id}", name="editPhone")
-     * @Template("ContactBundle:Contacts:editPhone.html.twig")
+     * @Template("ContactBundle:Phone:editPhone.html.twig")
      */
     public function editPhoneAction($id){
         $repo = $this->getDoctrine()->getRepository('ContactBundle:Phone');
@@ -380,38 +392,6 @@ class ContactBoxController extends Controller
      * @Route("/removeContact/{id}", name="removePerson")
      */
     public function removePersonAction($id){
-        //usuwanie adresów
-        $repo = $this->getDoctrine()->getRepository('ContactBundle:Address');
-        $addresses = $repo->findBy(['person' => $id]);
-        $countAddresses = count($addresses);
-
-        $em = $this->getDoctrine()->getManager();
-        for($i = 0; $i < $countAddresses; $i++){
-            $em->remove($addresses[$i]);
-            $em->flush();
-        }
-        //usuwanie telefonów
-        $repo = $this->getDoctrine()->getRepository('ContactBundle:Phone');
-        $phones = $repo->findBy(['person' => $id]);
-        $countPhones = count($phones);
-
-        $em = $this->getDoctrine()->getManager();
-        for($i = 0; $i < $countPhones; $i++){
-            $em->remove($phones[$i]);
-            $em->flush();
-        }
-        //usuwanie maili
-        $repo = $this->getDoctrine()->getRepository('ContactBundle:Email');
-        $mails = $repo->findBy(['person' => $id]);
-        $countMails = count($mails);
-
-        $em = $this->getDoctrine()->getManager();
-        for($i = 0; $i < $countMails; $i++){
-            $em->remove($mails[$i]);
-            $em->flush();
-        }
-
-        //usunięcie osoby
         $repo = $this->getDoctrine()->getRepository('ContactBundle:Person');
         $person = $repo->find($id);
 
@@ -483,7 +463,7 @@ class ContactBoxController extends Controller
 
     /**
      * @Route("/newGroup", name="newGroup")
-     * @Template("ContactBundle:Contacts:newGroup.html.twig")
+     * @Template("ContactBundle:Groups:newGroup.html.twig")
      */
     public function newGroupAction()
     {

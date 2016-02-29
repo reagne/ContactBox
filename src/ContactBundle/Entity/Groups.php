@@ -29,8 +29,8 @@ class Groups
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity = "Person", inversedBy = "groups")
-     * @ORM\JoinTable(name = "group_person")
+     * @ORM\ManyToMany(targetEntity = "Person", mappedBy = "groups")
+     *
      */
     private $persons;
 
